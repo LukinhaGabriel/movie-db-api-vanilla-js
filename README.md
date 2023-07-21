@@ -1,6 +1,8 @@
 <h1 align="center">
-Popular Filmes - #7daysofcode
+Popular Filmes - #7daysofcode - Alura
 </h1>
+
+Desafio proposto pela Giovanna Moeller com alura
 
 ## Sobre o Projeto
 

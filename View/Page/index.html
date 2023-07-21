@@ -5,158 +5,63 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style/svg.css">
   <link rel="stylesheet" href="../style/main.css">
-
   <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <title>Filmes Popularest</title>
 </head>
 <body>
   <main>
     <h1 class="title">Filmes Populares</h1>
+
+    <div class="input-container">
+      <input class="movie-name" id="movie-name" type="search" placeholder="Digite algum filme para pesquisar..." required>
+      <button class="btn-search" type="submit">
+        <svg class="svg-seach"  viewBox="0 0 21 22"  xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" />
+          <path d="M19.35 20.35L15 16" />
+        </svg>               
+      </button>
+    </div>
     
-    <form action="" method="post">
-      <div class="wrapper-field">
-        <input class="field" type="search" placeholder="Digite algum filme para pesquisar..." required>
-        <button class="btn-search" type="submit">
-          <svg class="svg-seach"  viewBox="0 0 21 22"  xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" />
-            <path d="M19.35 20.35L15 16" />
-          </svg>               
-        </button>
-      </div>
-    </form>
-    
-    <div class="wrapper-checkbox">
-      <input class="checkbox" type="checkbox" name="show-favorites-movies" id="show-favorites-movies">
-      <label for="show-favorites-movies">Mostrar meus filmes favoritos apenas</label>
+    <div class="showOnlyFavorites">
+      <input class="checkbox" type="checkbox" name="showOnlyFavorites" id="showOnlyFavorites">
+      <label for="showOnlyFavorites">Mostrar meus filmes favoritos apenas</label>
     </div>
   
-    <div class="list-movie">
-
-      <div class="wrapper-movie">
-        <div class="mask-circle">
-          <img class="movie-photo" src="../images/avengers.png" alt="">
-        </div>
-
-        <div>
-          <h4 class="title-movie">Avengers Endgame (2019)</4>
-          
-          <div class="wrapper-evaluation-like">
-
-            <div class="wrapper-evaluation">
-              <svg class="svg-star" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" >
-                <path d="M10 0L13.09 6.26L20 7.27L15 12.14L16.18 19.02L10 15.77L3.82 19.02L5 12.14L0 7.27L6.91 6.26L10 0Z" />
-              </svg>
-              <span class="evaluation-note">9.2</span>
-            </div>
+    <div class="list-movies">
+      <div class="movie">
+        <div class="movie-informations">
+          <div class="mask-circle">
+            <img class="movie-image" src="../images/avengers.png" alt="">
+          </div>
+          <div class="movie-text">
+            <h4 class="title-movie">Avengers Endgame (2019)</4>
+            <div class="rating-favorites">
   
-            <div class="wrapper-checkbox-like">
-              <input type="checkbox" class="checkbox-heart" name="like" id="like"> 
-              <label for="like">Favoritar</label>
+              <div class="rating">
+                <svg class="svg-star" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" >
+                  <path d="M10 0L13.09 6.26L20 7.27L15 12.14L16.18 19.02L10 15.77L3.82 19.02L5 12.14L0 7.27L6.91 6.26L10 0Z" />
+                </svg>
+                <span>9.2</span>
+              </div>
+    
+              <div class="favorite">
+                <input type="checkbox" class="checkbox-heart" name="like" id="like"> 
+                <label for="like">Favoritar</label>
+              </div>
             </div>
           </div>
-
         </div>
-    
-        <p class="description">Lorem Ipsum is simply dummy text of the printing and typesetting 
-        industry. Lorem Ipsum has been the industry's standard dummy text
-        ever since the 1500s, when an unknown printer took a galley of type
-        and scrambled it to make a type specimen book.</p>
+
+        <div class="movie-description">
+          <p class="description">Lorem Ipsum is simply dummy text of the printing and typesetting 
+          industry. Lorem Ipsum has been the industry's standard dummy text
+          ever since the 1500s, when an unknown printer took a galley of type
+          and scrambled it to make a type specimen book.</p>
+        </div>
       </div>
 
-      <div class="wrapper-movie">
-        <div class="mask-circle">
-          <img class="movie-photo" src="https://images3.alphacoders.com/118/thumb-1920-1185634.jpg" alt="">
-        </div>
-
-        <div>
-          <h4 class="title-movie">Batman (2022)</4>
-          
-          <div class="wrapper-evaluation-like">
-
-            <div class="wrapper-evaluation">
-              <svg class="svg-star" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" >
-                <path d="M10 0L13.09 6.26L20 7.27L15 12.14L16.18 19.02L10 15.77L3.82 19.02L5 12.14L0 7.27L6.91 6.26L10 0Z" />
-              </svg>
-              <span class="evaluation-note">9.2</span>
-            </div>
-  
-            <div class="wrapper-checkbox-like">
-              <input type="checkbox" class="checkbox-heart" name="like" id="like-2"> 
-              <label for="like-2">Favoritar</label>
-            </div>
-          </div>
-
-        </div>
-    
-        <p class="description">Lorem Ipsum is simply dummy text of the printing and typesetting 
-        industry. Lorem Ipsum has been the industry's standard dummy text
-        ever since the 1500s, when an unknown printer took a galley of type
-        and scrambled it to make a type specimen book.</p>
-      </div>
-
-      <div class="wrapper-movie">
-        <div class="mask-circle">
-          <img class="movie-photo" src="../images/doctorStrange.png" alt="">
-        </div>
-
-        <div>
-          <h4 class="title-movie">Doctor Strange in the Multiverse of Madness</4>
-          
-          <div class="wrapper-evaluation-like">
-
-            <div class="wrapper-evaluation">
-              <svg class="svg-star" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" >
-                <path d="M10 0L13.09 6.26L20 7.27L15 12.14L16.18 19.02L10 15.77L3.82 19.02L5 12.14L0 7.27L6.91 6.26L10 0Z" />
-              </svg>
-              <span class="evaluation-note">9.2</span>
-            </div>
-  
-            <div class="wrapper-checkbox-like">
-              <input type="checkbox" class="checkbox-heart" name="like" id="like-3"> 
-              <label for="like-3">Favoritar</label>
-            </div>
-          </div>
-
-        </div>
-    
-        <p class="description">Lorem Ipsum is simply dummy text of the printing and typesetting 
-        industry. Lorem Ipsum has been the industry's standard dummy text
-        ever since the 1500s, when an unknown printer took a galley of type
-        and scrambled it to make a type specimen book.</p>
-      </div>
-
-      <div class="wrapper-movie">
-        <div class="mask-circle">
-          <img class="movie-photo" src="../images/avatar.png" alt="">
-        </div>
-
-        <div>
-          <h4 class="title-movie">Avatar (2009)</4>
-          
-          <div class="wrapper-evaluation-like">
-
-            <div class="wrapper-evaluation">
-              <svg class="svg-star" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" >
-                <path d="M10 0L13.09 6.26L20 7.27L15 12.14L16.18 19.02L10 15.77L3.82 19.02L5 12.14L0 7.27L6.91 6.26L10 0Z" />
-              </svg>
-              <span class="evaluation-note">9.2</span>
-            </div>
-  
-            <div class="wrapper-checkbox-like">
-              <input type="checkbox" class="checkbox-heart" name="like" id="like-4"> 
-              <label for="like-4">Favoritar</label>
-            </div>
-          </div>
-
-        </div>
-    
-        <p class="description">Lorem Ipsum is simply dummy text of the printing and typesetting 
-        industry. Lorem Ipsum has been the industry's standard dummy text
-        ever since the 1500s, when an unknown printer took a galley of type
-        and scrambled it to make a type specimen book.</p>
-      </div>
-      
     </div>
   </main>
   <script src="../script/main.js"></script>
