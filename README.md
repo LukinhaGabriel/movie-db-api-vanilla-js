@@ -6,6 +6,9 @@ Desafio proposto pela Giovanna Moeller com alura
 
 ## Sobre o Projeto
 
+### Project Screenshot
+<img src="./design/imagem-do-projeto.png">
+
 ### Funcionalidades
 
 * Listar filmes populares
