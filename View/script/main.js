@@ -2,8 +2,44 @@ import api_key from "../../env.js"
 
 
 const $listMovies = document.querySelector(".list-movies");
+const $form = document.querySelector("#movie_form");
+const $input = document.querySelector("#movie-name");
 
-async function getTheMovieDB(){
+
+$form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    searchMovie();
+});
+
+function clearAllMovies(){
+    $listMovies.innerHTML = "";
+}
+
+async function searchMovie(){
+    const inputValue = $input.value;
+    if (inputValue != '') {
+        const movies = await getSearchMovieByName(inputValue);
+        clearAllMovies();
+        if(movies != ""){
+            movies.forEach(movie => renderMovie(movie));
+        } else{
+            $listMovies.innerHTML = "Filme não encontrado";
+        }
+    }
+}
+
+async function getSearchMovieByName(title){
+    const urlSearch = `https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=true&api_key=${api_key}&language=pt-BR&page=1`;
+    try{
+        const fetchResponse = await fetch(urlSearch);
+        const { results } = await fetchResponse.json();
+        return results;
+    } catch(err){
+        console.log(err)
+    }
+}
+
+async function getPopularMovies(){
     const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=pt-BR&page=1`;
     try{
         const fetchResponse = await fetch(url);
@@ -16,7 +52,7 @@ async function getTheMovieDB(){
 
 
 window.onload = async function(){
-    const movies = await getTheMovieDB();
+    const movies = await getPopularMovies();
     movies.forEach(movie => renderMovie(movie));
 }
 

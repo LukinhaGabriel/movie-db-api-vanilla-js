@@ -37,7 +37,7 @@ main{
   margin-bottom: 48px;
 }
 
-.input-container{
+.form-container{
   position: relative;
   
   background-color: rgba(255, 255, 255, 0.2);
@@ -54,7 +54,7 @@ main{
   border-radius: 0.5rem;
 }
 
-.input-container .movie-name{
+.form-container .field-movie-name{
   width: 100%;
   height: 100%;
   
@@ -69,7 +69,7 @@ main{
   border: none;
 }
 
-.input-container .movie-name::placeholder{
+.form-container .field-movie-name::placeholder{
   color: #8A8A8A;
   font-family: inherit;
   font-size: 18px;
@@ -78,7 +78,7 @@ main{
   line-height: normal;
 }
 
-.input-container .btn-search{
+.form-container .btn-search{
   position: absolute;
   right: 0;
   padding: 20px;
