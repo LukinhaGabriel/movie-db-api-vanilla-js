@@ -1,9 +1,28 @@
-import api_key from "../../env.js"
-
+import {API} from "../../services/api.js";
+import { LocalStorage } from "../../services/localStorage.js";
 
 const $listMovies = document.querySelector(".list-movies");
 const $form = document.querySelector("#movie_form");
 const $input = document.querySelector("#movie-name");
+const $checkBox = document.querySelector(".checkbox");
+
+$checkBox.addEventListener("change", checkBoxStatus);
+
+
+function checkBoxStatus() {
+    const isChecked = $checkBox.checked;
+    if(!isChecked){
+        clearAllMovies();
+        getAllPopularMovies();
+    } else{
+        clearAllMovies()
+        const movies = LocalStorage.getFavoriteMovies();
+        movies.forEach(movie => renderMovie(movie));
+        if(movies.length === 0){
+            $listMovies.innerHTML = "Você não curtiu nenhum filme ainda :(";
+        } 
+    }
+}
 
 
 $form.addEventListener("submit", (e) => {
@@ -18,7 +37,7 @@ function clearAllMovies(){
 async function searchMovie(){
     const inputValue = $input.value;
     if (inputValue != '') {
-        const movies = await getSearchMovieByName(inputValue);
+        const movies = await API.getSearchMovieByName(inputValue);
         clearAllMovies();
         if(movies != ""){
             movies.forEach(movie => renderMovie(movie));
@@ -28,67 +47,105 @@ async function searchMovie(){
     }
 }
 
-async function getSearchMovieByName(title){
-    const urlSearch = `https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=true&api_key=${api_key}&language=pt-BR&page=1`;
-    try{
-        const fetchResponse = await fetch(urlSearch);
-        const { results } = await fetchResponse.json();
-        return results;
-    } catch(err){
-        console.log(err)
-    }
-}
 
-async function getPopularMovies(){
-    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=pt-BR&page=1`;
-    try{
-        const fetchResponse = await fetch(url);
-        const { results } = await fetchResponse.json()
-        return results;
-    } catch(err){
-        console.log(err);
+function favoriteButtonPressed(event, movie) {
+    const favoriteState = {
+      favorited: 'images/heart-fill.svg',
+      notFavorited: 'images/heart.svg'
+    }
+    if(event.target.src.includes(favoriteState.notFavorited)){
+        
+        event.target.src = `../${favoriteState.favorited}`;
+        LocalStorage.saveToLocalStorage(movie);
+    }
+    else{
+        event.target.src = `../${favoriteState.notFavorited}`;
+        LocalStorage.removeFromLocalStorage(movie.id);
     }
 }
 
 
-window.onload = async function(){
-    const movies = await getPopularMovies();
-    movies.forEach(movie => renderMovie(movie));
+async function getAllPopularMovies() {
+    const movies = await API.getPopularMovies();
+    movies.forEach(movie => renderMovie(movie))
+}
+
+window.onload = function() {
+    getAllPopularMovies()
 }
 
 function renderMovie(movie){
-    const { title, poster_path, vote_average, release_date, overview } = movie;
-    const isFavorited = false;
-
-    $listMovies.insertAdjacentHTML("beforeend", `
-        <div class="movie" />
-            <div class="movie-informations" />
-                <div class="mask-circle">
-                    <img class="movie-image" src="https://image.tmdb.org/t/p/w500${poster_path}" alt="${title}" />
-                </div>
-                <div class="movie-text">
-                    <h4 class="title-movie">${title} ${new Date(release_date).getFullYear()}</h4>
-                    <div class="rating-favorites" />
-                        
-                        <div class="rating">
-                            <svg class="svg-star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M10 0L13.09 6.26L20 7.27L15 12.14L16.18 19.02L10 15.77L3.82 19.02L5 12.14L0 7.27L6.91 6.26L10 0Z" />
-                            </svg>
-                            <span>${vote_average}</span>
-                        </div>
+    const { id, title, poster_path, vote_average, release_date, overview } = movie;
+    const isFavorited = LocalStorage.checkMovieIsFavorited(id);
+    const $divMovie = document.createElement("div");
+    $divMovie.classList.add("movie");
+    $listMovies.appendChild($divMovie);
     
-                        <div class="favorite" onclick="changeLike()">
-                            <img src="${isFavorited ? '../images/heart-fill.svg' : '../images/heart.svg'}" alt="Heart"/>
-                            <span>Favoritar</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="movie-description">
-                <p class="description">${overview}</p>
-            </div>
-        </div>
-    `)
+    const $divMovieInformations = document.createElement("div");
+    $divMovieInformations.classList.add("movie-informations");
+    $divMovie.appendChild($divMovieInformations);
+        
+            const $maskCircle = document.createElement("div");
+            $maskCircle.classList.add("mask-circle");
+            $divMovieInformations.appendChild($maskCircle);
+
+                const $movieImage = document.createElement("img");
+                $movieImage.classList.add("movie-image");
+                $movieImage.src = `https://image.tmdb.org/t/p/w500${poster_path}`
+                $movieImage.alt = title;
+                $maskCircle.appendChild($movieImage);
+                
+
+            const $divMovieText = document.createElement("div");
+            $divMovieText.classList.add("movie-text");
+            $divMovieInformations.appendChild($divMovieText);
+
+                const $h4TitleMovie = document.createElement("h4");
+                $h4TitleMovie.classList.add("title-movie");
+                $h4TitleMovie.innerText = `${title} ${new Date(release_date).getFullYear()}`;
+                $divMovieText.appendChild($h4TitleMovie);
+                
+
+                const $divRatingFavorites = document.createElement("div");
+                $divRatingFavorites.classList.add("rating-favorites");
+                $divMovieText.appendChild($divRatingFavorites);
+                
+                    const $divRating = document.createElement("div");
+                    $divRating.classList.add("rating");
+                    $divRating.insertAdjacentHTML('beforeend', `
+                        <svg class="svg-star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M10 0L13.09 6.26L20 7.27L15 12.14L16.18 19.02L10 15.77L3.82 19.02L5 12.14L0 7.27L6.91 6.26L10 0Z" />
+                        </svg>
+                        <span>${vote_average}</span>
+                    `);
+                    $divRatingFavorites.appendChild($divRating);
+                    
+                    
+                    const $divFavorite = document.createElement("div");
+                    $divFavorite.classList.add("favorite");
+                    $divRatingFavorites.appendChild($divFavorite);
+                    
+                    const $heartImage = document.createElement("img");
+                    $heartImage.src = isFavorited  ? "../images/heart-fill.svg" : "../images/heart.svg";
+                    $heartImage.alt = "Heart";
+                    $heartImage.onclick = (event) => {
+                        favoriteButtonPressed(event, movie)
+                    };
+                    $divFavorite.append($heartImage);
+                    $divFavorite.insertAdjacentHTML("beforeend", `
+                        <span>Favoritar</span>
+                    `);
+
+    const $movieDescription = document.createElement("div");
+    $movieDescription.classList.add("movie-description");
+    $divMovie.appendChild($movieDescription);
+    $movieDescription.insertAdjacentHTML("afterbegin", `
+        <p class="description">${overview}</p>
+    `);
+    
+
+        
 }
+
+
 
